@@ -144,21 +144,21 @@ These are all the tasks of this project, the ones that are completed link to the
   - space : same as \+, but adds a space (is overwritten by \+)
   - \# : adds a 0 in front of octal conversions that don't begin with one, and a 0x or 0X for x or X conversions
 
-### [8. Sarcasm is lost in print] (./length_modifiers.c)
+### [8. Sarcasm is lost in print](./length_modifiers.c)
 * Handle the following length modifiers for non-custom conversion specifiers:
   - l : converts d, i, u, o, x, X conversions in short signed or unsigned ints
   - h : converts d, i, u, o, x, X conversions in long signed or unsigned ints
 
-### [9. Print some money and give it to us for the rain forests] (./field_width.c)
+### [9. Print some money and give it to us for the rain forests](./field_width.c)
 * Handle the field width for non-custom conversion specifiers.
 
-### [10. The negative is the equivalent of the composer's score, and the print the performance] (./precision.c)
+### [10. The negative is the equivalent of the composer's score, and the print the performance](./precision.c)
 * Handle the precision for non-custom conversion specifiers.
 
-### [11. It's depressing when you're still around and your albums are out of print] (./0_flag_character.c)
+### [11. It's depressing when you're still around and your albums are out of print](./0_flag_character.c)
 * Handle the 0 flag character for non-custom conversion specifiers.
 
-### [12. Every time that I wanted to give up, if I saw an interesting textile, print what ever, suddenly I would see a collection] (./the_flag.c)
+### [12. Every time that I wanted to give up, if I saw an interesting textile, print what ever, suddenly I would see a collection](./the_flag.c)
 * Handle the - flag character for non-custom conversion specifiers.
 
 ### [13. Print is the sharpest and the strongest weapon of our party](./print_custom.c)
@@ -169,7 +169,7 @@ These are all the tasks of this project, the ones that are completed link to the
 * Handle the following custom conversion specifier:
   - R : prints the rot13'ed string
 
-### [15. * ] (./above_options.c)
+### [15. * ](./above_options.c)
 * All the above options work well together.
 
 ---
