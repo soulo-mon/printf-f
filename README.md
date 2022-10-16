@@ -98,3 +98,7 @@ int main(void)
 Output:
 
 `+7`
+
+### Authors
+* **Itah Judah** - (https://github.com/Jhudharh)
+* **Solomon Thompson** - (https://github.com/soulo-mon)
