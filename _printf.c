@@ -1,50 +1,52 @@
 #include "main.h"
-#include <limits.h>
-#include <stdio.h>
 
 /**
- * _printf - produces output according to a format
- * @format: format string containing the characters and the specifiers
- * Description: this function will call the get_print() function that will
- * determine which printing function to call depending on the conversion
- * specifiers contained into fmt
- * Return: length of the formatted output string
+ * _printf - entry point
+ * @format: a const. char
+ * Return: 0
  */
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, flags_t *);
-	const char *p;
-	va_list arguments;
-	flags_t flags = {0, 0, 0};
+	int i, len = 0, spec_lock = 0;
+	va_list ap;
 
-	register int count = 0;
-
-	va_start(arguments, format);
-	if (!format || (format[0] == '%' && !format[1]))
+	if (format == NULL)
 		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
+	va_start(ap, format);
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (*p == '%')
+		if (spec_lock)
 		{
-			p++;
-			if (*p == '%')
+			spec_lock = 0;
+			continue;
+		}
+		if (format[i] == '%')
+		{
+			switch (format[i + 1])
 			{
-				count += _putchar('%');
-				continue;
+				case 'c':
+					spec_lock += print_char((char) va_arg(ap, int));
+					break;
+				case 's':
+					spec_lock += print_string(va_arg(ap, char*));
+					break;
+				case '%':
+					spec_lock += print_percentage((char) va_arg(ap, int));
+					break;
+				case 'i':
+					spec_lock += print_int(va_arg(ap, int), 0);
+					break;
+				case 'd':
+					spec_lock += print_dec(va_arg(ap, int), 0);
+					break;
 			}
-			while (get_flag(*p, &flags))
-				p++;
-			pfunc = get_print(*p);
-			count += (pfunc)
-				? pfunc(arguments, &flags)
-				: _printf("%%%c", *p);
-		} else
-			count += _putchar(*p);
+			len += spec_lock;
+		}
+		else
+		{
+			len += _putchar(format[i]);
+		}
 	}
-	_putchar(-1);
-	va_end(arguments);
-	return (count);
-
+	va_end(ap);
+	return (len);
 }
