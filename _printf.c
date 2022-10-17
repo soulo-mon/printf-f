@@ -1,67 +1,47 @@
 #include "main.h"
-
 /**
- * _strlen - Returns the length of a string
- * @s: The string
- *
- * Return: The length of the string
+ * _printf - is a function that selects the correct function to print.
+ * @format: identifier to look for.
+ * Return: the length of the string.
  */
-int _strlen(const char *s)
-{
-	int len = 0;
 
-	while (s[len])
-		len++;
-
-	return (len);
-}
-
-/**
- * _printf - prints anything
- * @format: the format string
- *
- * Return: the number of characters printed
- */
 int _printf(const char *format, ...)
 {
+	convert_matchi  m[] = {
+		{"%s", printf_string}, {"%c", printf_char}, {"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}, {"%R", printf_rot13},
+		{"%b", printf_bin}, {"%u", printf_unsigned}, {"%r", printf_srev}
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
+	};
+
 	va_list args;
-	printer printer;
-	int i = 0;
-	int characters_printed = 0;
 
-	if (format == NULL)
-		return (-1);
+	int i = 0, j, len = 0;
+
 	va_start(args, format);
-	while (format[i])
+
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
+
+Here:
+	while (format[i] != '\0')
 	{
-		for (; format[i] != '%' && format[i]; i++)
+		j = 13;
+		while (j >= 0)
 		{
-			_putchar(format[i]);
-			characters_printed++;
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			{
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
 		}
-		if (!format[i])
-			return (characters_printed);
-		if (format[i] == '%' && _strlen(format) == 1)
-			return (-1);
-		printer = _get_printer(&format[i + 1]);
-		if (printer.specifier != NULL)
-		{
-			characters_printed += printer.run(args);
-			i += 2; /* move past the specifier */
-			continue;
-		}
-
-		if (!format[i + 1])
-			return (characters_printed);
-
 		_putchar(format[i]);
-		characters_printed++;
-
-		if (format[i + 1] == '%')
-			i += 2; /* move past the % */
-		else
-			i++;
+		len++;
+		i++;
 	}
 	va_end(args);
-	return (characters_printed);
+	return (len);
 }
