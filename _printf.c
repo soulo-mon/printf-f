@@ -1,47 +1,67 @@
 #include "main.h"
 
 /**
- * _printf - produces output according to a format
- * @format: format string containing the characters and the specifiers
- * Description: this function will call the get_print() function that will
- * determine which printing function to call depending on the conversion
- * specifiers contained into fmt
- * Return: length of the formatted output string
+ * _strlen - Returns the length of a string
+ * @s: The string
+ *
+ * Return: The length of the string
+ */
+int _strlen(const char *s)
+{
+	int len = 0;
+
+	while (s[len])
+		len++;
+
+	return (len);
+}
+
+/**
+ * _printf - prints anything
+ * @format: the format string
+ *
+ * Return: the number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, flags_t *);
-	const char *p;
-	va_list arguments;
-	flags_t flags = {0, 0, 0};
+	va_list args;
+	printer printer;
+	int i = 0;
+	int characters_printed = 0;
 
-	register int count = 0;
-
-	va_start(arguments, format);
-	if (!format || (format[0] == '%' && !format[1]))
+	if (format == NULL)
 		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
+	va_start(args, format);
+	while (format[i])
 	{
-		if (*p == '%')
+		for (; format[i] != '%' && format[i]; i++)
 		{
-			p++;
-			if (*p == '%')
-			{
-				count += _putchar('%');
-				continue;
-			}
-			while (get_flag(*p, &flags))
-				p++;
-			pfunc = get_print(*p);
-			count += (pfunc)
-				? pfunc(arguments, &flags)
-				: _printf("%%%c", *p);
-		} else
-			count += _putchar(*p);
+			_putchar(format[i]);
+			characters_printed++;
+		}
+		if (!format[i])
+			return (characters_printed);
+		if (format[i] == '%' && _strlen(format) == 1)
+			return (-1);
+		printer = _get_printer(&format[i + 1]);
+		if (printer.specifier != NULL)
+		{
+			characters_printed += printer.run(args);
+			i += 2; /* move past the specifier */
+			continue;
+		}
+
+		if (!format[i + 1])
+			return (characters_printed);
+
+		_putchar(format[i]);
+		characters_printed++;
+
+		if (format[i + 1] == '%')
+			i += 2; /* move past the % */
+		else
+			i++;
 	}
-	_putchar(-1);
-	va_end(arguments);
-	return (count);
+	va_end(args);
+	return (characters_printed);
 }
