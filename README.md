@@ -4,7 +4,7 @@
 
 ## Dependencies
 
-  The `printf` function was coded on an Ubuntu 14.04 LTS machine with `gcc` version 4.8.4.
+  The `printf` function was coded on an Ubuntu 20.04 LTS machine with `gcc` version 4.8.4.
 
 ## Usage
   To use the `printf` function, assuming the above dependencies have been installed, compile all `.c` files in the repository and include the header `main.h` with any main function.
